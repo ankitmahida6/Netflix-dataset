@@ -1,0 +1,46 @@
+Netflix dataset project
+
+15 SQL Questions for Netflix Dataset Project:
+
+
+Beginner Level Questions
+1. Total Number of Titles
+
+2. Movies vs TV Shows Distribution
+
+3. Unique Ratings Available
+
+
+Intermediate Level Questions
+4. Top 5 Countries with Most Content
+
+5. Average Release Year by Content Type
+
+6. Directors with Most Titles
+
+
+Advanced Level Questions
+7. Content Added by Year
+
+8. Genre Analysis for TV Shows
+
+9. Long-Form Content Identification
+
+
+Expert Level Questions
+10. Multi-Country Content
+
+11. Seasonal Content Distribution
+
+12. Rating Diversity Analysis
+
+
+Complex Analytical Queries
+13. Content Trends Over Decades
+
+14. International Content Analysis
+
+15. Director Productivity
+
+
+Note: These queries are designed to help learners explore the Netflix dataset from multiple analytical perspectives, offering a comprehensive SQL learning experience.
