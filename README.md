@@ -64,3 +64,12 @@ Here are some of the key insights derived from the analysis:
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/ankitmahida6/Netflix-dataset/blob/main/Netflix_Dataset.csv
+
+---
+
+🧑‍💻 Contributing
+Contributions are welcome! If you'd like to improve this project, feel free to:
+
+1. Open an issue to report bugs or suggest enhancements.
+2. Submit a pull request with your changes.
+
