@@ -283,7 +283,7 @@ git pull origin main
 
 ### 📌 Cloning Repository
 ```sh
-git clone https://github.com/your-username/netflix-dataset.git
+git clone https://github.com/ankitmahida6/Netflix-dataset.git
 ```
 
 ---
