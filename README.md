@@ -257,6 +257,64 @@ ORDER BY title_count DESC;
 
 ---
 
+### 1️⃣3️⃣ Content Trends Over Decades
+```sql
+SELECT 
+	CASE 
+		WHEN release_year between 1950 AND 1959 THEN '1950s'
+		WHEN release_year between 1960 and 1969 then '1960s'
+		WHEN release_year between 1970 and 1979 then '1970s'
+		WHEN release_year between 1980 and 1989 then '1980s'
+		WHEN release_year between 2000 and 2010 then '2000s'
+		else '2010s and later'
+	end as decades,
+	count(*) as total_count,
+	round(count(*) * 100 / (select count(*) from netflix_info), 0) as percnt
+from netflix_info
+group by 1
+order by 2 desc;
+```
+🔹 **Purpose:** Tracks content distribution across different decades.
+
+---
+
+
+### 1️⃣4️⃣ International Content Analysis
+```sql
+select 
+	case 
+		when country is null then 'unknown'
+		else country
+	end as content_country,
+	count(*) as total_content,
+	round(count(*) * 100 / (select count(*) from netflix_info), 0) as percents,
+	round(avg(release_year), 0) as avg_year
+from netflix_info
+group by 1
+order by 2 desc;
+```
+🔹 **Purpose:** Provides insights into international content distribution.
+
+---
+
+
+### 1️⃣5️⃣ Director Productivity
+```sql
+select 
+	director, 
+	count(*) as total_content,
+	round(avg(release_year), 0) as avg_year
+from netflix_info
+where director is not null
+group by 1
+order by 2 desc
+limit 10;
+```
+🔹 **Purpose:** Identifies the most productive directors.
+
+---
+
+
 ## 🛠️ GitHub Commands for Repository Management
 
 ### 📌 Initializing Repository
