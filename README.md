@@ -65,11 +65,233 @@ Here are some of the key insights derived from the analysis:
    ```bash
    git clone https://github.com/ankitmahida6/Netflix-dataset/blob/main/Netflix_Dataset.csv
 
+   # Netflix Dataset Analysis
+
+## 📌 Overview
+This repository contains SQL queries used to analyze the Netflix dataset. The queries cover various aspects, such as content distribution, long-form content identification, seasonal trends, and more.
+
 ---
 
-🧑‍💻 Contributing
-Contributions are welcome! If you'd like to improve this project, feel free to:
+## 📂 Repository Structure
+```
+📁 netflix-dataset-analysis
+ ├── 📄 README.md  (This File)
+ ├── 📂 data       (Dataset files)
+ ├── 📂 queries    (SQL queries)
+ ├── 📂 results    (Query output results)
+```
 
-1. Open an issue to report bugs or suggest enhancements.
-2. Submit a pull request with your changes.
+---
 
+## 📊 SQL Queries & Explanations
+
+### 1️⃣ Total Number of Titles
+```sql
+SELECT 
+	COUNT(title) AS total_titles 
+FROM netflix_info;
+```
+🔹 **Purpose:** Provides the total count of titles in the Netflix dataset.
+
+---
+
+### 2️⃣ Movies vs TV Shows Distribution
+```sql
+SELECT 
+	COUNT(*) AS total_count,
+	ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM netflix_info), 2) AS percentages
+FROM netflix_info;
+```
+🔹 **Purpose:** Shows the distribution of Movies and TV Shows with their percentages.
+
+---
+
+### 3️⃣ Unique Ratings Available
+```sql
+SELECT 
+	DISTINCT(rating) 
+FROM netflix_info
+ORDER BY rating;
+```
+🔹 **Purpose:** Lists all unique rating categories in the dataset.
+
+---
+
+### 4️⃣ Top 5 Countries with Most Content
+```sql
+SELECT 
+	country,
+	COUNT(*) AS total_count
+FROM netflix_info
+WHERE country IS NOT NULL
+GROUP BY country
+ORDER BY 2 DESC
+LIMIT 5;
+```
+🔹 **Purpose:** Identifies the top 5 countries with the most Netflix content.
+
+---
+
+### 5️⃣ Average Release Year by Content Type
+```sql
+SELECT 
+	title,
+	ROUND(AVG(release_year), 2) AS avg_year
+FROM netflix_info
+GROUP BY 1;
+```
+🔹 **Purpose:** Calculates the average release year for Movies and TV Shows.
+
+---
+
+### 6️⃣ Directors with Most Titles
+```sql
+SELECT 
+	director,
+	COUNT(title) AS total_count
+FROM netflix_info
+WHERE director IS NOT NULL
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10;
+```
+🔹 **Purpose:** Lists top 10 directors with the most titles.
+
+---
+
+### 7️⃣ Content Added by Year
+```sql
+SELECT
+	TO_DATE(date_added, 'mm-dd-yyyy'),
+	COUNT(*) AS total_count
+FROM netflix_info
+GROUP BY 1
+ORDER BY 2 DESC;
+```
+🔹 **Purpose:** Analyzes content addition trends by year.
+
+---
+
+### 8️⃣ Genre Analysis for TV Shows
+```sql
+SELECT 
+	listed_in,
+	COUNT(*) AS total_show,
+	ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM netflix_info WHERE genre = 'TV Show'), 2) AS pernt
+FROM netflix_info
+WHERE genre = 'TV Show'
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
+```
+🔹 **Purpose:** Explores the most common genres for TV Shows.
+
+---
+
+### 9️⃣ Long-Form Content Identification
+```sql
+SELECT
+	title,
+	genre,
+	duration
+FROM netflix_info
+WHERE genre = 'Movie' AND CAST(REGEXP_REPLACE(duration, '[^0-9]', '', 'g') AS INT) > 90
+   OR genre = 'TV Show' AND CAST(REGEXP_REPLACE(duration, '[^0-9]', '', 'g') AS INT) > 3
+ORDER BY CAST(REGEXP_REPLACE(duration, '[^0-9]', '', 'g') AS INT) DESC;
+```
+🔹 **Purpose:** Finds movies over 1.5 hours and TV shows with more than 3 seasons.
+
+---
+
+### 🔟 Multi-Country Content
+```sql
+SELECT 
+	title,
+	COUNT(DISTINCT country) AS country_count
+FROM netflix_info
+WHERE country IS NOT NULL
+GROUP BY 1
+HAVING 2 >= 1
+ORDER BY 2;
+```
+🔹 **Purpose:** Identifies titles available in multiple countries.
+
+---
+
+### 1️⃣1️⃣ Seasonal Content Distribution
+```sql
+SELECT 
+    CASE 
+        WHEN EXTRACT(MONTH FROM date_clean) IN (12, 1, 2) THEN 'Winter'
+        WHEN EXTRACT(MONTH FROM date_clean) IN (3, 4, 5) THEN 'Summer'
+        WHEN EXTRACT(MONTH FROM date_clean) IN (6, 7, 8) THEN 'Rain'
+        ELSE 'Autumn'
+    END AS season,
+    COUNT(*) AS titles_added
+FROM (
+    SELECT 
+        COALESCE( 
+            TO_DATE(date_added, 'MM-DD-YYYY'),  
+            TO_DATE(date_added, 'Month DD, YYYY') 
+        ) AS date_clean
+    FROM netflix_info
+    WHERE date_added IS NOT NULL
+) subquery
+GROUP BY season
+ORDER BY titles_added;
+```
+🔹 **Purpose:** Analyzes content addition by season.
+
+---
+
+### 1️⃣2️⃣ Rating Diversity Analysis
+```sql
+SELECT rating, 
+       COUNT(*) AS title_count,
+       ROUND(AVG(release_year), 0) AS avg_release_year
+FROM netflix_info 
+GROUP BY rating 
+ORDER BY title_count DESC;
+```
+🔹 **Purpose:** Provides insights into rating distribution and average release years.
+
+---
+
+## 🛠️ GitHub Commands for Repository Management
+
+### 📌 Initializing Repository
+```sh
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/your-username/netflix-dataset.git
+git push -u origin main
+```
+
+### 📌 Pushing Changes
+```sh
+git add .
+git commit -m "Added new SQL queries"
+git push origin main
+```
+
+### 📌 Pulling Latest Updates
+```sh
+git pull origin main
+```
+
+### 📌 Cloning Repository
+```sh
+git clone https://github.com/your-username/netflix-dataset.git
+```
+
+---
+
+## 📢 Contributing
+Feel free to fork this repository, make improvements, and submit a pull request. Contributions are welcome! 🚀
+
+---
+
+## 📜 License
+This project is open-source and available under the MIT License.
